@@ -11,7 +11,13 @@ connectDB();
 const app = express();
 
 // 2. Middleware
-app.use(cors());
+app.use(cors({
+    origin: [
+        "http://localhost:5173",                
+        "https://aqh-learning.vercel.app"       
+    ],
+    credentials: true // Cho phép gửi cookie/token nếu có
+}));
 app.use(express.json()); 
 
 // Cấu hình phục vụ file tĩnh (Frontend)
@@ -35,8 +41,8 @@ app.use('/api/orders', require('./routes/orderRoutes'));
 app.use('/api/auth', authRoutes);
 // 4. Route Trang chủ (Phục vụ file index.html của Frontend)
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../frontend', 'index.html'));
-});
+    res.status(200).send("<h1>Server AQH Learning đang chạy ngon lành! </h1>");
+})
 
 // Route Test
 app.get('/test-api', (req, res) => {
